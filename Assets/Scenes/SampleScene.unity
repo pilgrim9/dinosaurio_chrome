@@ -166,7 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59799116c86222d44a09f098674dd5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePrefab: {fileID: 8207425043612859266, guid: 7634b0586264c8a48887db530fc818ad, type: 3}
 --- !u!1 &196301953
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59799116c86222d44a09f098674dd5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePrefab: {fileID: 8207425043612859266, guid: 7634b0586264c8a48887db530fc818ad, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,6 +490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnRate: 2
+  maxObstacles: 10
 --- !u!1 &1240525181
 GameObject:
   m_ObjectHideFlags: 0
