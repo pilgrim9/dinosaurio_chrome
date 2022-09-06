@@ -10,7 +10,8 @@ public class DestroyOnTriggerWith : MonoBehaviour
         Debug.Log("trigger");
         if (other.gameObject.CompareTag(with))
         {
-            Destroy(gameObject);
+            ObstacleManager.instance.Enqueue(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

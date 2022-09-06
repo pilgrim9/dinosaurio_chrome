@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    public GameObject obstaclePrefab;
-    public void spawn() {
-        Instantiate(obstaclePrefab, transform.position, Quaternion.identity);
+    public void spawn(GameObject obstacle) {
+        obstacle.transform.position = transform.position;
+        obstacle.SetActive(true);
     }
 }
