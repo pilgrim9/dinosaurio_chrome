@@ -23,7 +23,7 @@ public class ObstacleManager : MonoBehaviour
     private void Start() {
         spawners = GetComponentsInChildren<ObstacleSpawner>();
         for (int i = 0; i < maxObstacles; i++) {
-            GameObject gameObject = Instantiate(obstaclePrefab)
+            GameObject gameObject = Instantiate(obstaclePrefab);
             gameObject.SetActive(false);
             Enqueue(gameObject);
         }
