@@ -11,6 +11,7 @@ public class ObstacleManager : MonoBehaviour
 
     public static ObstacleManager instance;
     private void Awake() {
+        Debug.Log("called");
         if (instance && instance != this) {
             Destroy(gameObject);
         } else {

@@ -19,15 +19,16 @@ namespace Tests.Playmode
             obstacleSpawner.transform.parent = obstacleManagerGameObject.transform;
 
             ObstacleManager obstacleManager = obstacleManagerGameObject.GetComponent<ObstacleManager>();
-            obstacleManager.spawnRate = 0.1f;
+            obstacleManager.spawnRate = 1f;
             int randomEnemyCount = Random.Range(1, 6);
             obstacleManager.maxObstacles = randomEnemyCount;
             // Wait for a frame to ensure the obstacle manager has started
             yield return null;
-            GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+            obstacleManager.spawnRate = 1f;
             yield return new WaitForSeconds(obstacleManager.spawnRate * randomEnemyCount);
-            IEnumerable<GameObject> activeObstacles = obstacles.Where(obstacle => obstacle.activeSelf);
-            Assert.AreEqual(randomEnemyCount, activeObstacles.Count());
+            // FindGameObjectsWithTag finds only active game objects
+            GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+            Assert.AreEqual(randomEnemyCount, obstacles.Count());
         }
     } 
 }
