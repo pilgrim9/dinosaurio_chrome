@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
@@ -27,10 +28,11 @@ public class ObstacleManager : MonoBehaviour
             gameObject.SetActive(false);
             Enqueue(gameObject);
         }
-        InvokeRepeating(nameof(spawn), spawnRate, spawnRate);
+        InvokeRepeating(nameof(Spawn), spawnRate, spawnRate);
     }
     
-    private void spawn() {
+    private void Spawn() {
+        if (!gameObjects.Any()) return;
         int randomValue = Random.Range(0, spawners.Length);
         GameObject obstacle = gameObjects.Dequeue();
         spawners[randomValue].Spawn(obstacle);
