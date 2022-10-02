@@ -28,7 +28,7 @@ public class ObstacleManager : MonoBehaviour
             gameObject.SetActive(false);
             Enqueue(gameObject);
         }
-        InvokeRepeating(nameof(Spawn), spawnRate, spawnRate);
+        Invoke(nameof(Spawn), spawnRate);
     }
     
     private void Spawn() {
@@ -36,6 +36,7 @@ public class ObstacleManager : MonoBehaviour
         int randomValue = Random.Range(0, spawners.Length);
         GameObject obstacle = gameObjects.Dequeue();
         spawners[randomValue].Spawn(obstacle);
+        Invoke(nameof(Spawn), spawnRate);
     }
 
     public void Enqueue(GameObject gameObject) {

@@ -3,14 +3,15 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.SceneManagement;
+using Scene = UnityEditor.SearchService.Scene;
 
 namespace Tests.Playmode
 {
     public class EnemySpawnerTest
     {
 
-        [UnityTest]
-        public IEnumerator RandomEnemyCountSpawned()
+        ObstacleManager makeObstacleManager()
         {
             GameObject obstacleManagerGameObject = new GameObject();
             obstacleManagerGameObject.AddComponent<ObstacleManager>();
@@ -19,7 +20,13 @@ namespace Tests.Playmode
             obstacleSpawner.AddComponent<ObstacleSpawner>();
             obstacleSpawner.transform.parent = obstacleManagerGameObject.transform;
 
-            ObstacleManager obstacleManager = obstacleManagerGameObject.GetComponent<ObstacleManager>();
+            return obstacleManagerGameObject.GetComponent<ObstacleManager>();
+        }
+        
+        [UnityTest]
+        public IEnumerator RandomEnemyCountSpawned()
+        {
+            ObstacleManager obstacleManager = makeObstacleManager();
             obstacleManager.spawnRate = 1f;
             int randomEnemyCount = Random.Range(1, 6);
             obstacleManager.maxObstacles = randomEnemyCount;
@@ -35,13 +42,7 @@ namespace Tests.Playmode
         [UnityTest]
         public IEnumerator EnemyDestroyed()
         {
-            GameObject obstacleManagerGameObject = new GameObject();
-            obstacleManagerGameObject.AddComponent<ObstacleManager>();
-            
-            GameObject obstacleSpawner = new GameObject();
-            obstacleSpawner.AddComponent<ObstacleSpawner>();
-            obstacleSpawner.transform.parent = obstacleManagerGameObject.transform;
-            ObstacleManager obstacleManager = obstacleManagerGameObject.GetComponent<ObstacleManager>();
+            ObstacleManager obstacleManager = makeObstacleManager();
             obstacleManager.maxObstacles = 3;
             obstacleManager.spawnRate = 0.2f;
             yield return new WaitForSeconds(obstacleManager.spawnRate * obstacleManager.maxObstacles);
@@ -56,12 +57,17 @@ namespace Tests.Playmode
             killZone.tag = "DestroyZone";
             Vector3 killzoneOffset = new Vector3(-3, 0, 0);
             killZone.transform.position = killzoneOffset;
-            Assert.AreEqual(obstacleSpawner.transform.position.x - 3, killZone.transform.position.x, 0.1f);
+            Assert.AreEqual(obstacleManager.transform.position.x - 3, killZone.transform.position.x, 0.1f);
 
             float expectedTimeToCollision = 3 / obstacles[0].GetComponent<Move>().moveSpeed;
-            yield return new WaitForSeconds(expectedTimeToCollision+10);
+            yield return new WaitForSeconds(expectedTimeToCollision + 1);
             // Count inactive
             Assert.AreEqual(3, obstacles.Where(obstacle => !obstacle.activeSelf).Count());
+            foreach (GameObject obj in SceneManager.GetActiveScene().GetRootGameObjects())
+            {
+                if (obj.name.Contains("tests runner")) continue;
+                GameObject.Destroy(obj);
+            }
         }
     } 
 }
