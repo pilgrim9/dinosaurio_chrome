@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Jump : MonoBehaviour
+public class JumpBehaviour : MonoBehaviour
 {     
     public float jumpForce = 10f;
     private Rigidbody2D rb;
@@ -11,7 +9,7 @@ public class Jump : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Debug.Log(rb);
     }
-    public void jump()
+    public void Jump()
     {
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }

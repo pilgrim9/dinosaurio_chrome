@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
@@ -12,6 +12,7 @@ public class ObstacleManager : MonoBehaviour
 
     public static ObstacleManager instance;
     private void Awake() {
+        Debug.Log("called");
         if (instance && instance != this) {
             Destroy(gameObject);
         } else {
@@ -27,13 +28,15 @@ public class ObstacleManager : MonoBehaviour
             gameObject.SetActive(false);
             Enqueue(gameObject);
         }
-        InvokeRepeating(nameof(spawn), spawnRate, spawnRate);
+        Invoke(nameof(Spawn), spawnRate);
     }
     
-    private void spawn() {
-        int randomValue = UnityEngine.Random.Range(0, spawners.Length);
+    private void Spawn() {
+        if (!gameObjects.Any()) return;
+        int randomValue = Random.Range(0, spawners.Length);
         GameObject obstacle = gameObjects.Dequeue();
-        spawners[randomValue].spawn(obstacle);
+        spawners[randomValue].Spawn(obstacle);
+        Invoke(nameof(Spawn), spawnRate);
     }
 
     public void Enqueue(GameObject gameObject) {
